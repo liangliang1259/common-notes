@@ -12,3 +12,18 @@
  - 5.ILoadBalancer从Eureka Client中获取到server List,并通过IRule算法获取到一个实例`192.168.1.1:8080`
  - 6.RibbonLoadBalancerClient 替换url，将`http://order/sayHello/leon`替换为`http://192.168.1.1:8080/sayHello/leo`
  - 7.调用真正的httpclient组件执行接口调用
+## 3.RestTemplate定制化组件
+```java
+@Bean
+@ConditionalOnMissingBean
+public RestTemplateCustomizer restTemplateCustomizer(
+        final LoadBalancerInterceptor loadBalancerInterceptor) {
+    return restTemplate -> {
+        List<ClientHttpRequestInterceptor> list = new ArrayList<>(
+                restTemplate.getInterceptors());
+        list.add(loadBalancerInterceptor);
+        restTemplate.setInterceptors(list);
+    };
+}
+```
+这里给`RestTemplate`添加了一个拦截器，由拦截器去处理相关的发送
