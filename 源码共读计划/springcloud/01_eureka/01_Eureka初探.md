@@ -205,5 +205,6 @@ eureka.instance.instance-id=${spring.cloud.client.ip-address}:${spring.applicati
 > 访问Eureka服务获取Eureka页面，可以查看所有注册到Eureka Server上的一些服务的信息。
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1giznihsn34j31xx0u00yn.jpg)
 ## 关于
-欢迎关注本人公众号，不定时更新文章
+ - Github: [https://github.com/liangliang1259/common-notes](https://github.com/liangliang1259/common-notes)
+ - 公众号
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1giznpxhgdvj3076076gm3.jpg)
