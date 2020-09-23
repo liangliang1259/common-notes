@@ -14,7 +14,7 @@
 ## 1.概述
 > Eureka的一些概念
  - 服务提供者(Provider)：我们这里可以把它称作服务提供者或者叫做server。当然这里只是一个相对的概念，如服务A可以作为server给服务B提供服务，同时服务B也可以作为server给A提供服务。`一个springboot应用，通过注解标明`
- - 服务调用者(Consumer): 作为服务使用者，调用Provider端的接口，返回数据进行逻辑处理，`一个springboot应用，通过注解标明`,这里我们吧`Provider`和`Consumer`都称作Eureka的client。因为它们续约将本身作为client注册到Eureka上。而`Eureka`服务在这里称之为Eureka server.
+ - 服务调用者(Consumer): 作为服务使用者，调用Provider端的接口，返回数据进行逻辑处理，`一个springboot应用，通过注解标明`,这里我们把`Provider`和`Consumer`都称作Eureka的client。因为它们续约将本身作为client注册到Eureka上。而`Eureka`服务在这里称之为Eureka server.
  - 服务注册(Rigister)：服务(包括Server和Client)启动时，会将本身注册到Eureka Server上，同时会将一些数据信息发送到Eureka Server上(包含ip，端口，服务名等)
  - 服务续约(Renew)：这个概念是在注册中心中比较常见的，不仅仅是在Eureka中。该功能通过心跳机制实现，每间隔30s会向Eureka发送一个信息通知Eureka，自己还在运行。若长时间未续约，则该服务会被剔除。具体源码后续会进行分析
  - 服务下线(Eviction):若Eureka client长时间未向Eureka Server发送心跳，则会将该节点从Eureka 中剔除。
