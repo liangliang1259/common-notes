@@ -4,10 +4,8 @@
 
 ## 目录
  - 概述
- - Eureka架构图
- - 请求流程图
- - 代码说明
- - 图说流程
+ - 源码环境搭建
+ - 入口类
 
 ## 1.概述
 eureka源码不是直接由springcloud提供的，我们平时通过注解`@EnableDiscoveryClient`和`@EnableEurekaServer`使用的，都是`springcloud`在原有代码上进行了封装的。而原生的底层实现是有`netflix`实现的。因此我们阅读源码的时候直接阅读`netflix`下的eureka源码。
@@ -39,4 +37,41 @@ git clone https://github.com/Netflix/eureka.git
 ## 3.入门分析
 基于我们之前的知识，我们知道Eureka的启动顺序是 `Eureka Server`--> `Eureka Client`启动并注册到 Eureka Server上 --> 服务之间完成调用。如图
 ![](https://tva1.sinaimg.cn/large/007S8ZIlly1gizjhgyqryj316e0ry76u.jpg)
+ - 入口类
 那么我们先来了解下`Eureka Server`启动时，都做了哪些事情。先梳理Eureka Server的启动流程。Eureka server是一个jsp组成的项目，所以我们先研究下`Eureka server`下的`web.xml`文件。
+```xml
+  <listener>
+    <listener-class>com.netflix.eureka.EurekaBootStrap</listener-class>
+  </listener>
+```
+回忆下我们之前学习jsp的时候，项目的入口类就是`listener`，因此我们可以找到`EurekaBootStrap`:该类即为`Eureka server`的入口类。
+ - 主页
+```xml
+  <welcome-file-list>
+    <welcome-file>jsp/status.jsp</welcome-file>
+  </welcome-file-list>
+```
+![](https://tva1.sinaimg.cn/large/007S8ZIlly1giznihsn34j31xx0u00yn.jpg)
+该页面即为我们上一篇看到的页面。
+ - filter
+此处的一些filter，暂时先不管，后续再进行讲解。
+```xml
+  <filter>
+    <filter-name>requestAuthFilter</filter-name>
+    <filter-class>com.netflix.eureka.ServerRequestAuthFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>rateLimitingFilter</filter-name>
+    <filter-class>com.netflix.eureka.RateLimitingFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>gzipEncodingEnforcingFilter</filter-name>
+    <filter-class>com.netflix.eureka.GzipEncodingEnforcingFilter</filter-class>
+  </filter>
+```
+本篇内容就到此为止，先对Eureka的结构有个大致的了解，然后下一节我们开始Eureka Server的启动流程。
+## 关于
+
+ - Github: [https://github.com/liangliang1259/common-notes](https://github.com/liangliang1259/common-notes)
+ - 公众号
+![](https://tva1.sinaimg.cn/large/007S8ZIlly1giznpxhgdvj3076076gm3.jpg)
